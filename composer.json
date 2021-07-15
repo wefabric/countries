@@ -1,0 +1,33 @@
+{
+    "name": "wefabric/countries",
+    "description": "Country management package",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Leo Flapper",
+            "email": "leo@wefabric.nl"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.1|8.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Wefabric\\Countries\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Wefabric\\Countries\\CountriesServiceProvider"
+            ],
+            "aliases": {
+                "Countries": "Wefabric\\Countries\\CountryManagerFacade"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
