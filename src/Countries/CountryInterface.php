@@ -18,7 +18,7 @@ interface CountryInterface
     /**
      * @return float
      */
-    public function getTaxRate(): float;
+    public function getTaxRate(): int;
 
     /**
      * @param float $taxRate

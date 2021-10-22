@@ -9,6 +9,7 @@
 namespace Wefabric\Countries;
 
 use Illuminate\Support\Collection;
+use Wefabric\Countries\Countries\Country;
 use Wefabric\Countries\Countries\CountryInterface;
 
 class CountryCollection extends Collection
@@ -20,8 +21,8 @@ class CountryCollection extends Collection
      */
     public function __construct($items = [])
     {
-        foreach($items as $iso3166 => $countryInterface) {
-            $this->put($iso3166, $countryInterface);
+        foreach($items as $iso => $countryInterface) {
+            $this->put($iso, $countryInterface);
         }
     }
 
@@ -35,5 +36,15 @@ class CountryCollection extends Collection
             $isoCodes[] = $country->getIso();
         }
         return $isoCodes;
+    }
+
+    /**
+     * @return CountryCollection
+     */
+    public function getAsOptions(): CountryCollection
+    {
+        return $this->mapWithKeys(function (Country $country) {
+            return [$country->getIso() => $country->getName()];
+        });
     }
 }

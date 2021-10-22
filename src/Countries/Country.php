@@ -19,12 +19,9 @@ class Country implements CountryInterface, Arrayable
      * The country ISO3166
      * @var string
      */
-    public string $iso3166 = 'EN';
+    public string $iso = 'EN';
 
-    /**
-     * @var float
-     */
-    public float $taxRate = 0.0;
+    public int $taxRate = 0;
 
     /**
      * @var string
@@ -33,13 +30,13 @@ class Country implements CountryInterface, Arrayable
 
     /**
      * Country constructor.
-     * @param $iso3166
+     * @param $iso
      * @param $taxRate
      * @throws CountryNotFoundException
      */
-    public function __construct($iso3166, $taxRate)
+    public function __construct($iso, $taxRate)
     {
-        $this->setIso($iso3166);
+        $this->setIso($iso);
         $this->setTaxRate($taxRate);
         $this->setName();
     }
@@ -48,14 +45,14 @@ class Country implements CountryInterface, Arrayable
      * @param string $iso3166
      * @throws CountryNotFoundException
      */
-    public function setIso(string $iso3166)
+    public function setIso(string $iso)
     {
-        $iso3166 = strtoupper($iso3166);
-        if(!Codes::country($iso3166)) {
-            throw new CountryNotFoundException(sprintf('Country with iso1366 "%s" not found', $iso3166));
+        $iso = strtoupper($iso);
+        if(!Codes::country($iso)) {
+            throw new CountryNotFoundException(sprintf('Country with iso "%s" not found', $iso));
         }
 
-        $this->iso3166 = $iso3166;
+        $this->iso = $iso;
     }
 
     /**
@@ -63,7 +60,7 @@ class Country implements CountryInterface, Arrayable
      */
     public function getIso(): string
     {
-        return strtoupper($this->iso3166);
+        return strtoupper($this->iso);
     }
 
     /**
@@ -71,7 +68,7 @@ class Country implements CountryInterface, Arrayable
      */
     public function setName()
     {
-        $this->name = $this->translate(Codes::country($this->iso3166));
+        $this->name = $this->translate(Codes::country($this->iso));
     }
 
     /**
@@ -93,10 +90,8 @@ class Country implements CountryInterface, Arrayable
         return trans('countries::countries.'.$key);
     }
 
-    /**
-     * @return float
-     */
-    public function getTaxRate(): float
+
+    public function getTaxRate(): int
     {
         return $this->taxRate;
     }
@@ -119,5 +114,12 @@ class Country implements CountryInterface, Arrayable
             'name' => $this->getName(),
             'tax_rate' => $this->getTaxRate()
         ];
+    }
+
+    public function __get($key)
+    {
+        if($key === 'iso' || $key === 'id') {
+            return $this->getIso();
+        }
     }
 }
