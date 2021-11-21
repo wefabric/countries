@@ -27,6 +27,11 @@ class CountryManager
         $this->collection()->put($country->getIso(), $country);
     }
 
+    public function default()
+    {
+        return $this->collection()->where('iso', config('countries.default'))->first();
+    }
+
     public function collection()
     {
         if(!$this->collection) {
